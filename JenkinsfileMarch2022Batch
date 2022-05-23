@@ -24,7 +24,7 @@ def sendSlackNotifications(String buildStatus = 'STARTED') {
   slackSend (color: colorCode, message: summary)
 }
 
-node('slaves'){
+node{
 
 echo "Job Name is:  ${env.JOB_NAME}"
 echo "Node name is:  ${env.NODE_NAME}"
@@ -39,7 +39,7 @@ sendSlackNotifications('STARTED')
 
 //Get the code from GithUb Repo
 stage('CheckoutCode'){
-git branch: 'development', credentialsId: '2a72fc75-0e3b-4f0f-a5e9-66f563ac58ec', url: 'https://github.com/MithunTechnologiesDevOps/maven-web-application.git'
+git branch: 'development', credentialsId: '14bdc22d-7ced-47f5-98a3-7b18bec230a6', url: 'https://github.com/AJAYREDDY3936/maven-web-application.git'
 }
 //Do the build by using Maven Build tool
 stage('Build'){
@@ -58,8 +58,10 @@ sh "${mavenHome}/bin/mvn deploy"
 
 //Deploy Application into Tomcat Server
 stage('DeployApplicationIntoTomcatServer'){
-sshagent(['38c6d484-28b7-47fd-9099-ec2ecc2311b7']) {
-   sh "scp -o StrictHostKeyChecking=no target/maven-web-application.war ec2-user@13.235.74.33:/opt/apache-tomcat-9.0.62/webapps/"
+sshagent(['a00ec505-a6aa-4dce-87fa-226f488c048e']) {
+    sh "scp -o StrictHostKeyChecking=no target/maven-web-application.war" ec2-user@3.110.51.237:/opt/apache-tomcat-9.0.62/webapps/"
+
+
 }
 
 }
